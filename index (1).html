@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Wave Coin - The Democrats' Answer to Trump Coin</title>
+    <meta name="description" content="Join the Blue Wave revolution. Professional crypto project with actual values and marginally better memes.">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 25%, #0284c7 50%, #0369a1 75%, #1e40af 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navigation */
+        .nav { 
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(30, 64, 175, 0.95); backdrop-filter: blur(10px);
+            padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 18px; font-weight: bold; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            color: white; text-decoration: none; font-size: 14px; 
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a:hover { color: #fbbf24; }
+        .nav-links a.active { color: #fbbf24; }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #fbbf24;
+        }
+        .connect-btn { 
+            background: #fbbf24; color: #1e40af; padding: 10px 20px; 
+            border-radius: 8px; font-weight: bold; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .connect-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+        }
+        
+        /* Scroll-in animation styles */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+            .shake-continuous, .shake-hover {
+                animation: none !important;
+            }
+        }
+        
+        /* Button animations */
+        @keyframes shake-continuous {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        @keyframes shake-burst {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+        
+        .shake-continuous {
+            animation: shake-continuous 2s ease-in-out infinite;
+        }
+        
+        .shake-hover:hover {
+            animation: shake-burst 0.6s ease-in-out;
+        }
+        
+        /* Hero Section */
+        .hero { 
+            min-height: 100vh; display: flex; align-items: center; 
+            padding-top: 80px; 
+        }
+        .hero-content { display: grid; grid-template-columns: 1fr 400px; gap: 50px; align-items: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero .accent { color: #fbbf24; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        
+        /* Presale Card */
+        .presale-card { 
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 2px solid rgba(251, 191, 36, 0.5); border-radius: 16px;
+            padding: 30px; text-align: center;
+        }
+        .presale-card h2 { color: #fbbf24; font-size: 1.5rem; margin-bottom: 20px; }
+        .price-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+        .countdown-item { background: #1e40af; padding: 15px 10px; border-radius: 8px; }
+        .countdown-number { font-size: 1.5rem; font-weight: bold; }
+        .countdown-label { font-size: 0.7rem; opacity: 0.8; }
+        .progress-bar { background: #1e40af; height: 12px; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        .progress-fill { background: #fbbf24; height: 100%; width: 67.5%; border-radius: 6px; }
+        
+        /* Buttons */
+        .btn { 
+            padding: 15px 30px; border-radius: 12px; font-weight: bold; 
+            text-decoration: none; display: inline-block; margin: 5px;
+            transition: all 0.3s ease; border: none; cursor: pointer;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: #fbbf24; color: #1e40af; }
+        .btn-secondary { border: 2px solid white; color: white; background: transparent; }
+        .btn-secondary:hover { background: white; color: #1e40af; }
+        
+        /* Sections */
+        .section { padding: 100px 0; scroll-margin-top: 80px; }
+        .section h2 { 
+            font-size: 2.5rem; font-weight: 900; text-align: center; 
+            margin-bottom: 50px; 
+        }
+        .section h2 .accent { color: #fbbf24; }
+        
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { 
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            padding: 30px; text-align: center;
+        }
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .feature-card h3 { color: #fbbf24; font-size: 1.3rem; margin-bottom: 15px; }
+        
+        /* How It Works */
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .step-card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            padding: 30px; text-align: center;
+        }
+        .step-number {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #fbbf24; color: #1e40af;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        /* Tokenomics */
+        .tokenomics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+        .tokenomics-facts {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            padding: 30px;
+        }
+        .tokenomics-facts h3 { color: #fbbf24; margin-bottom: 20px; }
+        .tokenomics-facts ul { list-style: none; }
+        .tokenomics-facts li { margin-bottom: 10px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; }
+        .allocation-table {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            padding: 30px;
+        }
+        .allocation-table h3 { color: #fbbf24; margin-bottom: 20px; }
+        .allocation-row { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .allocation-row:last-child { border-bottom: none; }
+        
+        /* Roadmap */
+        .roadmap-phases { display: grid; gap: 30px; }
+        .phase-card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            padding: 30px;
+        }
+        .phase-title { color: #fbbf24; font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; }
+        
+        /* Community & Connect sections */
+        .community-content, .connect-content { text-align: center; }
+        .wallet-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        
+        /* Footer */
+        .footer { background: rgba(30, 64, 175, 0.8); padding: 50px 0; text-align: center; }
+        .footer p { opacity: 0.8; margin-bottom: 10px; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; gap: 30px; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .countdown { grid-template-columns: repeat(2, 1fr); }
+            .tokenomics-grid { grid-template-columns: 1fr; gap: 30px; }
+            .steps { grid-template-columns: 1fr; }
+            .wallet-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="logo">🌊 BLUE WAVE COIN</div>
+            <div class="nav-links">
+                <a href="#about" data-section="about">About</a>
+                <a href="#how" data-section="how">How it Works</a>
+                <a href="#tokenomics" data-section="tokenomics">Tokenomics</a>
+                <a href="#roadmap" data-section="roadmap">Roadmap</a>
+                <a href="#community" data-section="community">Community</a>
+                <a href="#connect" data-section="connect">Connect Wallet</a>
+            </div>
+            <a href="#connect" class="connect-btn shake-hover">CONNECT WALLET</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="scroll-reveal">
+                    <h1>THE DEMOCRATS'<br><span class="accent">ANSWER TO TRUMP COIN</span></h1>
+                    <p>Trump Coin? Melania Coin? Cute. Ours has actual values... and marginally better memes.</p>
+                    
+                    <div style="margin: 30px 0;">
+                        <span style="font-size: 2rem; margin-right: 15px;">🐕</span>
+                        <span style="font-size: 2rem; margin-right: 15px;">🐱</span>
+                        <span style="font-size: 2rem; margin-right: 15px;">🐸</span>
+                        <span style="font-size: 2rem; margin-right: 15px;">😎</span>
+                        <span style="font-size: 2rem;">🔥</span>
+                    </div>
+                    
+                    <div style="background: rgba(30, 64, 175, 0.8); padding: 20px; border-radius: 12px; margin: 30px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #fbbf24; font-size: 1.5rem;">⭐⭐⭐</span>
+                            <h3 style="font-size: 1.3rem;">THE DEMOCRATS' ANSWER TO TRUMP COIN</h3>
+                        </div>
+                    </div>
+                    
+                    <a href="#connect" class="btn btn-primary shake-hover">Connect Wallet</a>
+                    <a href="#community" class="btn btn-secondary shake-continuous">Join Community</a>
+                </div>
+                
+                <!-- Presale Card -->
+                <div class="presale-card scroll-reveal">
+                    <h2>PHASE 1 PRESALE</h2>
+                    
+                    <div class="price-info">
+                        <div>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">Current Price</p>
+                            <p style="font-size: 1.2rem; font-weight: bold;">$0.001</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">Next Price</p>
+                            <p style="font-size: 1.2rem; font-weight: bold;">$0.002</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fbbf24; color: #1e40af; padding: 10px; border-radius: 8px; font-weight: bold; margin: 20px 0;">
+                        Price increase when goal reached
+                    </div>
+                    
+                    <div class="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-label">DAYS</div>
+                            <div class="countdown-number" id="days">15</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-label">HOURS</div>
+                            <div class="countdown-number" id="hours">10</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-label">MIN</div>
+                            <div class="countdown-number" id="minutes">15</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-label">SEC</div>
+                            <div class="countdown-number" id="seconds">30</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px;">
+                        <span>Progress: 67.5%</span>
+                        <span>$2,024,000 raised</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0;">
+                        <button class="shake-hover" style="background: #1e40af; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">BUY WITH SOL</button>
+                        <button class="shake-hover" style="background: #1e40af; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">BUY WITH USDT</button>
+                        <button class="shake-hover" style="background: #1e40af; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">BUY WITH USDC</button>
+                    </div>
+                    
+                    <input type="text" placeholder="Enter amount" style="width: 100%; background: #1e40af; color: white; border: none; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    
+                    <button class="shake-hover" style="width: 100%; background: linear-gradient(to right, #2563eb, #1e40af); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer;">BUY WITH SOL</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="scroll-reveal">About <span class="accent">Blue Wave Coin</span></h2>
+            <div class="features">
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Our Mission</h3>
+                    <p>Blue Wave Coin represents the democratic response to the political meme coin phenomenon. We're building a community-driven cryptocurrency that champions progressive values.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Why We're Different</h3>
+                    <p>Unlike other political tokens, Blue Wave Coin focuses on building sustainable value through community engagement and transparent development.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Community First</h3>
+                    <p>We believe in the power of collective action and democratic participation. Join thousands of holders making waves in crypto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how">
+        <div class="container">
+            <h2 class="scroll-reveal">How It <span class="accent">Works</span></h2>
+            <div class="steps">
+                <div class="step-card scroll-reveal">
+                    <div class="step-number">1</div>
+                    <h3>Connect</h3>
+                    <p>Click Connect Wallet and approve in your wallet.</p>
+                </div>
+                <div class="step-card scroll-reveal">
+                    <div class="step-number">2</div>
+                    <h3>Acquire</h3>
+                    <p>Get $BLUE on your preferred DEX/CEX; add token to wallet.</p>
+                </div>
+                <div class="step-card scroll-reveal">
+                    <div class="step-number">3</div>
+                    <h3>Hold & Participate</h3>
+                    <p>Join the community, vote, and ride the wave.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section class="section" id="tokenomics">
+        <div class="container">
+            <h2 class="scroll-reveal">Token<span class="accent">omics</span></h2>
+            <div class="tokenomics-grid">
+                <div class="tokenomics-facts scroll-reveal">
+                    <h3>Quick Facts</h3>
+                    <ul>
+                        <li><strong>Total Supply:</strong> 1,000,000,000 $BLUE (placeholder)</li>
+                        <li><strong>Buy/Sell Tax:</strong> 1% / 1% (placeholder)</li>
+                        <li><strong>Chain:</strong> Ethereum (ERC-20) (placeholder)</li>
+                        <li><strong>Liquidity:</strong> Locked (placeholder)</li>
+                        <li><strong>Contract:</strong> 0x... (TBA)</li>
+                    </ul>
+                </div>
+                <div class="allocation-table scroll-reveal">
+                    <h3>Allocation</h3>
+                    <div class="allocation-row">
+                        <span>Liquidity</span>
+                        <span><strong>60%</strong></span>
+                    </div>
+                    <div class="allocation-row">
+                        <span>Treasury</span>
+                        <span><strong>15%</strong></span>
+                    </div>
+                    <div class="allocation-row">
+                        <span>Community/Rewards</span>
+                        <span><strong>15%</strong></span>
+                    </div>
+                    <div class="allocation-row">
+                        <span>Team</span>
+                        <span><strong>10%</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-reveal" style="text-align: center; margin-top: 30px; font-size: 0.9rem; opacity: 0.8;">
+                <p><em>Numbers are placeholders; final details TBA.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="section" id="roadmap">
+        <div class="container">
+            <h2 class="scroll-reveal">Road<span class="accent">map</span></h2>
+            <div class="roadmap-phases">
+                <div class="phase-card scroll-reveal">
+                    <div class="phase-title">Phase 1 — Launch</div>
+                    <p>Token deploy, website v1, initial liquidity, socials live.</p>
+                </div>
+                <div class="phase-card scroll-reveal">
+                    <div class="phase-title">Phase 2 — Growth</div>
+                    <p>Listings (as eligible), partnerships, community campaigns.</p>
+                </div>
+                <div class="phase-card scroll-reveal">
+                    <div class="phase-title">Phase 3 — Utility</div>
+                    <p>Light utility drops, staking/points if applicable.</p>
+                </div>
+                <div class="phase-card scroll-reveal">
+                    <div class="phase-title">Phase 4 — Expansion</div>
+                    <p>CEX listings (as applicable), cross-chain exploration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="section" id="community">
+        <div class="container">
+            <h2 class="scroll-reveal">Com<span class="accent">munity</span></h2>
+            <div class="community-content scroll-reveal">
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">We live on crypto-Twitter and Telegram. Be early, be loud.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#" class="btn btn-primary shake-continuous">Join Community</a>
+                    <a href="#" class="btn btn-secondary">Follow on X</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Wallet Section -->
+    <section class="section" id="connect">
+        <div class="container">
+            <h2 class="scroll-reveal">Connect <span class="accent">Wallet</span></h2>
+            <div class="connect-content scroll-reveal">
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">Hook up MetaMask/WalletConnect/Coinbase Wallet here.</p>
+                <div class="wallet-buttons">
+                    <button class="btn btn-primary shake-hover">Connect MetaMask</button>
+                    <button class="btn btn-primary shake-hover">WalletConnect</button>
+                    <button class="btn btn-primary shake-hover">Coinbase Wallet</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>🌊 BLUE WAVE COIN</strong></p>
+            <p>The democratic answer to political meme coins.</p>
+            <p style="font-size: 0.8rem; margin-top: 20px;">
+                Disclaimer: This is a demonstration project. Cryptocurrency investments carry significant risk.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const days = document.getElementById('days');
+            const hours = document.getElementById('hours');
+            const minutes = document.getElementById('minutes');
+            const seconds = document.getElementById('seconds');
+            
+            let d = parseInt(days.textContent);
+            let h = parseInt(hours.textContent);
+            let m = parseInt(minutes.textContent);
+            let s = parseInt(seconds.textContent);
+            
+            s--;
+            if (s < 0) {
+                s = 59;
+                m--;
+                if (m < 0) {
+                    m = 59;
+                    h--;
+                    if (h < 0) {
+                        h = 23;
+                        d--;
+                    }
+                }
+            }
+            
+            days.textContent = d.toString().padStart(2, '0');
+            hours.textContent = h.toString().padStart(2, '0');
+            minutes.textContent = m.toString().padStart(2, '0');
+            seconds.textContent = s.toString().padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        
+        // Smooth scrolling with offset for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed header
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Active navigation highlighting
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('.section, .hero');
+            const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id') || 'about';
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Scroll reveal animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal:not(.revealed)');
+            
+            reveals.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('revealed');
+                    }, index * 100); // Stagger the animations
+                }
+            });
+        }
+        
+        // Scroll event listener
+        window.addEventListener('scroll', () => {
+            updateActiveNav();
+            revealOnScroll();
+        });
+        
+        // Initial calls
+        updateActiveNav();
+        revealOnScroll();
+        
+        // Reveal hero elements immediately
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroElements = document.querySelectorAll('.hero .scroll-reveal');
+            heroElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('revealed');
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>
